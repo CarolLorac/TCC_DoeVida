@@ -1,3 +1,4 @@
+import 'package:app_doevida/banco_dados/login_service.dart';
 import 'package:app_doevida/barNavigation.dart';
 import 'package:app_doevida/tela_restauracao.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,10 +13,10 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _showPassword=false;   //senha visivel e invisivel
-  
-  String _emailLogin;
-  String _senhaLogin;
+  TextEditingController _senhaController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +35,8 @@ class _LoginState extends State<Login> {
           
           color: Colors.white,
           child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
           child: Column(
             children: <Widget>[
 
@@ -51,10 +54,14 @@ class _LoginState extends State<Login> {
                       BoxShadow(blurRadius: 3, color: Colors.black26)
                     ]),
                 child: TextFormField(
-                    onChanged: (text){
-                      _emailLogin = text;
+                   
+                    validator: (value){
+                      if(!value.contains("@")){
+                        return "email deve possuir @";
+                      }
+                      return null;
                     },
-                    
+                    controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.email, color: Colors.grey[300]),
@@ -77,9 +84,13 @@ class _LoginState extends State<Login> {
                     ]),
                 child: TextFormField(
                     obscureText: _showPassword == false? true: false,
-                    onChanged: (text){
-                      _senhaLogin= text;
+                   validator: (value){
+                      if(value.length <6){
+                        return "Senha deve ter pelo menos 6 caracteres.";
+                      }
+                      return null;
                     },
+                   controller: _senhaController,
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.vpn_key, color: Colors.grey[300]),
                         hintText: 'Senha',
@@ -126,11 +137,11 @@ class _LoginState extends State<Login> {
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    onPressed: () async{
-                      bool isValid=await AuthService.signup(_emailLogin,_senhaLogin);
+                    onPressed: () {
                      // if (_email == "carol"){
                         Navigator.push(context,
                           MaterialPageRoute(builder: (context) => BarNavigation()));
+                        _fazerLogin();
                       //}
                       //else{
                        // return;
@@ -139,7 +150,14 @@ class _LoginState extends State<Login> {
                   ))
             ],
           )),
-      )
+      ))
     );
+  }
+  void _fazerLogin() async{
+    if (_formKey.currentState.validate()){
+     LoginService().realizarLogin(_emailController.text, _senhaController.text);
+    }else{
+      print("inválido");
+    }
   }
 }

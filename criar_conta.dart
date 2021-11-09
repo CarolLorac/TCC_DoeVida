@@ -12,9 +12,67 @@ class _CriarContaState extends State<CriarConta> {
   bool _showPassword = false;
   bool _verSenha = false;
 
+  TextEditingController _controllerUsuario= TextEditingController();
+  TextEditingController _controllerEmail= TextEditingController();
+  TextEditingController _controllerSenha = TextEditingController();
+  TextEditingController _controllerConfirmarSenha = TextEditingController();
+
+  var mensagemErro='';
+
+  _validarCampos(){
+
+    //recupação de dados
+    String nome = _controllerUsuario.text;
+    String email = _controllerEmail.text;
+    String senha = _controllerSenha.text;
+    String confirmarSenha = _controllerConfirmarSenha.text;
+
+    
+    
+    if(nome.isNotEmpty){
+
+      if(email.isNotEmpty && email.contains("@")){
+
+        if(senha.isNotEmpty){
+         
+          if(confirmarSenha.isNotEmpty){
+            _cadastrarUsuario();
+            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BarNavigation()));
+                                  mensagemErro='';
+                        
+
+          }
+          else{
+            setState(() {mensagemErro="Erro!! Digite a confirmação de senha";});
+          }
+
+        } else{
+          setState(() {mensagemErro="Erro!! Digite a senha";});
+        }
+
+
+      }
+      else{
+        setState(() {mensagemErro="Erro!! Digite o e-mail e utilize o @";});
+      }
+
+    }else{
+      setState(() {mensagemErro="Erro!! Digite o nome do usuário";});
+    }
+    
+
+  }
+   _cadastrarUsuario(){
+
+   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             'Criar conta',
@@ -22,17 +80,19 @@ class _CriarContaState extends State<CriarConta> {
           ),
           backgroundColor: Colors.white,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back_sharp),
             color: Colors.black, // cor da seta
             onPressed: () => Navigator.pop(context, false),
           ),
         ),
         body: Container(
-            color: Colors.white,
+            width: double.maxFinite,
+            height: double.maxFinite,
             child: SingleChildScrollView(
-              child: Column(
+              child: Expanded( child:Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(height: 20),
                   Center(
                     child: Image.asset("images/visual_medRemedios.png",
                         width: 700, height: 320),
@@ -47,6 +107,7 @@ class _CriarContaState extends State<CriarConta> {
                           BoxShadow(blurRadius: 3, color: Colors.black26)
                         ]),
                     child: TextField(
+                      controller: _controllerUsuario,
                         decoration: InputDecoration(
                             prefixIcon:
                                 Icon(Icons.person, color: Colors.grey[300]),
@@ -67,6 +128,7 @@ class _CriarContaState extends State<CriarConta> {
                           BoxShadow(blurRadius: 3, color: Colors.black26)
                         ]),
                     child: TextField(
+                      controller: _controllerEmail,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                             prefixIcon:
@@ -89,6 +151,7 @@ class _CriarContaState extends State<CriarConta> {
                         ]),
 
                     child: TextField(
+                      controller: _controllerSenha,
                         obscureText: _showPassword == true ? false : true,
                         decoration: InputDecoration(
                             prefixIcon:
@@ -120,6 +183,7 @@ class _CriarContaState extends State<CriarConta> {
                           BoxShadow(blurRadius: 3, color: Colors.black26)
                         ]),
                     child: TextFormField(
+                      controller: _controllerConfirmarSenha,
                         obscureText: _verSenha == false ? true : false,
                         decoration: InputDecoration(
                             prefixIcon:
@@ -156,15 +220,17 @@ class _CriarContaState extends State<CriarConta> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: /* () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BarNavigation()));
-                        },
-                      ))
+                        }, */ _validarCampos
+                      )),
+                      Container(height: 10,),
+                      Text(mensagemErro, style: TextStyle(color: Colors.red, fontSize: 14))
                 ],
-              ),
+              ),)
             )));
   }
 }

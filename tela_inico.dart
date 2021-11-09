@@ -1,10 +1,7 @@
-import 'package:app_doevida/criar_conta.dart';
-import 'package:app_doevida/home.dart';
+import 'package:app_doevida/inicio/criar_conta.dart';
 import 'package:app_doevida/barNavigation.dart';
-import 'package:app_doevida/login.dart';
-//import 'package:app_doevida/main.dart';
+import 'package:app_doevida/inicio/login.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 class TelaInicio extends StatefulWidget {
@@ -25,7 +22,7 @@ class _TelaInicioState extends State<TelaInicio> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
 
-              Image.asset("images/visual_doacao.png", width: 390, height: 380),
+              Image.asset("images/visual_doacao.png", width: 390, height: 370),
 
 
               
