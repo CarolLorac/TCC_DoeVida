@@ -38,7 +38,7 @@ class _TabbarState extends State<Tabbar> {
           body: TabBarView(
             children: <Widget> [
               new Campanha(),          
-              new Experiencias(),
+              new Experiencias(""),
             ],
           ),
       ),

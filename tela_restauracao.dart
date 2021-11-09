@@ -22,18 +22,15 @@ class _RestauracaoSenhaState extends State<RestauracaoSenha> {
 
       body: Container(
         padding: EdgeInsets.only(
-          top: 60,
-          left: 40,
-          right: 40,
+          
+          left: 30,
+          right: 30,
         ),
         color: Colors.white, // cor do fundo
         child: ListView(
           children: <Widget>[
-            SizedBox(
-              width: 200,
-              height: 200,
-              //child: Image.asset("assets/nomedaimagem"),
-            ),
+
+           Image.asset("images/esqueceu_senha.png",width: 250,height: 350,),
             SizedBox(
               height: 20,
             ),
@@ -51,7 +48,7 @@ class _RestauracaoSenhaState extends State<RestauracaoSenha> {
             Text(
               "Informe o e-mail associado com a sua conta.",
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
               textAlign: TextAlign.center,
@@ -66,7 +63,7 @@ class _RestauracaoSenhaState extends State<RestauracaoSenha> {
                 labelStyle: TextStyle(
                   color: Colors.black38,
                   fontWeight: FontWeight.w400,
-                  fontSize: 20,
+                  fontSize: 16,
                 ),
               ),
               style: TextStyle(
